@@ -16,7 +16,12 @@ jQuery( document ).ready( function ($) {
              $this.text( resp.data.message );
 
              if (resp.success ) {
-                 $this.after( '<a href="' + resp.data.activity_url +'">' + resp.data.check_label +'</a>' );
+
+                 if( $('a#share-post-as-activity-link').length ) {
+                     $('a#share-post-as-activity-link').attr( 'href', resp.data.activity_url ).text( resp.data.check_label );
+                 } else {
+                     $this.after( '<a id="share-post-as-activity-link" href="' + resp.data.activity_url +'">' + resp.data.check_label +'</a>' );
+                 }
              }
         }, 'json');
 
