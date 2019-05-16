@@ -13,7 +13,11 @@ jQuery( document ).ready( function ($) {
             share_url:   $this.data( 'shareUrl' ),
             item_id:     $this.data( 'itemId' )
         }, function( resp ){
-             $this.text( resp.data );
+             $this.text( resp.data.message );
+
+             if (resp.success ) {
+                 $this.after( '<a href="' + resp.data.activity_url +'">' + resp.data.check_label +'</a>' );
+             }
         }, 'json');
 
         return false;

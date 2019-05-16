@@ -81,7 +81,7 @@ class Share_Post_As_Activity {
 		check_ajax_referer( 'share-post-as-activity' );
 
 		if ( ! is_user_logged_in() || empty( $_POST['share_url'] ) || empty( $_POST['item_id'] ) ) {
-			wp_send_json_error( __( 'Invalid request', 'share-post-as-activity' ) );
+			wp_send_json_error( array( 'message' => __( 'Invalid request', 'share-post-as-activity' ) ) );
 		}
 
 		$post = wp_unslash( $_POST );
@@ -97,12 +97,18 @@ class Share_Post_As_Activity {
 		);
 
 		if ( is_wp_error( $add ) ) {
-			wp_send_json_error( $add->get_error_message() );
+			wp_send_json_error( array( 'message' => $add->get_error_message() ) );
 		}
 
 		do_action( 'post_shared_as_activity', $post['item_id'] );
 
-		wp_send_json_success( __( 'Shared successfully', 'share-post-as-activity' ) );
+		wp_send_json_success(
+			array(
+				'message'      => __( 'Shared successfully', 'share-post-as-activity' ),
+				'activity_url' => bp_activity_get_permalink( $add ),
+				'check_label'  => __( 'check here', 'share-post-as-activity' ),
+			)
+		);
 	}
 
 	/**
