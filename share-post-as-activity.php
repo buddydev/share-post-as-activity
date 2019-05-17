@@ -47,10 +47,19 @@ class Share_Post_As_Activity {
 	 * Setup callback needed
 	 */
 	private function setup() {
+		add_action( 'plugins_loaded', array( $this, 'load' ) );
+
 		add_filter( 'the_content', array( $this, 'modify_content' ) );
 
 		add_action( 'wp_ajax_page_activity_share', array( $this, 'process' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_assets' ) );
+	}
+
+	/**
+	 * Load other files
+	 */
+	public function load() {
+		require_once plugin_dir_path( __FILE__ ) . 'core/share-post-as-activity-functions.php';
 	}
 
 	/**
@@ -70,8 +79,12 @@ class Share_Post_As_Activity {
 			return $content;
 		}
 
-		if ( is_singular() ) {
-			$content = sprintf( '<button data-item-id="%d" data-share-url="%s" class="share-post-as-activity">%s</button>', get_the_ID(), get_permalink(), __( 'Share as activity', 'share-post-as-activity' ) ) . $content;
+		if ( apply_filters( 'share_post_as_activity_share_screen', is_singular() ) ) {
+			$content = share_post_as_activity_get_button(
+				array(
+					'item_id'   => get_the_ID(),
+					'share_url' => get_the_permalink(),
+				) ) . $content;
 		}
 
 		return $content;
