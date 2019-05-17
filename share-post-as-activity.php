@@ -80,7 +80,7 @@ class Share_Post_As_Activity {
 			return $content;
 		}
 
-		if ( apply_filters( 'share_post_as_activity_share_screen', is_singular() ) ) {
+		if ( apply_filters( 'bp_custom_share_post_to_activity_button_show', is_singular() ) ) {
 			$content .= share_post_as_activity_get_button(
 				array(
 					'item_id'   => get_the_ID(),
