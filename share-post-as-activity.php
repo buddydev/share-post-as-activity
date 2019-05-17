@@ -81,11 +81,11 @@ class Share_Post_As_Activity {
 		}
 
 		if ( apply_filters( 'share_post_as_activity_share_screen', is_singular() ) ) {
-			$content = share_post_as_activity_get_button(
+			$content .= share_post_as_activity_get_button(
 				array(
 					'item_id'   => get_the_ID(),
 					'share_url' => get_the_permalink(),
-				) ) . $content;
+				) );
 		}
 
 		return $content;
