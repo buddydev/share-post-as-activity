@@ -74,6 +74,7 @@ class Share_Post_As_Activity {
 		if ( ! function_exists( 'buddypress' ) || ! bp_is_active( 'activity' ) ) {
 			return $content;
 		}
+
 		// Do not show button if user is not loggedin.
 		if ( ! is_user_logged_in() ) {
 			return $content;
