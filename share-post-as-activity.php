@@ -65,6 +65,10 @@ class Share_Post_As_Activity {
 		if ( ! function_exists( 'buddypress' ) || ! bp_is_active( 'activity' ) ) {
 			return $content;
 		}
+		// Do not show button if user is not loggedin.
+		if ( ! is_user_logged_in() ) {
+			return $content;
+		}
 
 		if ( is_singular() ) {
 			$content = sprintf( '<button data-item-id="%d" data-share-url="%s" class="share-post-as-activity">%s</button>', get_the_ID(), get_permalink(), __( 'Share as activity', 'share-post-as-activity' ) ) . $content;
